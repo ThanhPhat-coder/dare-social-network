@@ -15,11 +15,13 @@ export class SearchService {
     return this.httpClient.get(`search/posts?q=${query}`);
   }
 
-  searchProfileByUsername(username: string) {
-    return this.httpClient.get(`search/person?q=${username}`);
+  searchByUsername(username: string) {
+    return this.httpClient.get(`search/userName?q=${username}`);
   }
 
-  searchPostsByUserId(userId: string) {
-    return this.httpClient.get(`post/user/${userId}`);
+  //searchUserPosts
+  searchUserPosts(username: string) {
+    return this.httpClient.get(`search/userPosts?q=${username}`);
   }
+
 }

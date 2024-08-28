@@ -15,10 +15,7 @@ import * as PostAction from '../../../ngrx/post/post.actions';
 import * as ProfileAction from '../../../ngrx/profile/profile.actions';
 import { ProfileModel } from '../../../model/profile.model';
 import { ActivatedRoute } from '@angular/router';
-
 import { InfiniteScrollDirective } from "ngx-infinite-scroll";
-
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 @Component({
   selector: 'app-profile',
   standalone: true,

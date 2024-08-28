@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import {filter, Subscription, take} from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SearchService } from '../../../service/search/search.service';
 import { PostModel } from '../../../model/post.model';
@@ -69,15 +69,58 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   performSearch(): void {
+    if (!this.searchQuery.trim()) {
+      this.clearPosts();
+      return;
+    }
+
+    this.isLoading = true;
+
     if (this.searchQuery.startsWith('@')) {
-      this.searchService.searchProfileByUsername(this.searchQuery.substring(0)).subscribe(results => {
-        this.posts = results;
-        console.log(results);
-      });
+      this.searchByUsername();
     } else {
-      this.searchService.search(this.searchQuery).subscribe(results => {
-        this.posts = results.posts;
-      });
+      this.searchByQuery();
     }
   }
+
+  private searchByUsername(): void {
+    const username = this.searchQuery.substring(1).trim();
+    this.store.dispatch(SearchActions.searchByUsername({ username }));
+    this.store.dispatch(SearchActions.searchUserPosts({ username }));
+    this.handleSearchResults();
+  }
+
+  private searchByQuery(): void {
+    const query = this.searchQuery.trim();
+    this.store.dispatch(SearchActions.search({ query }));
+    this.handleSearchResults();
+  }
+
+
+  private handleSearchResults(): void {
+    this.store.select('search').pipe(
+      filter((state: SearchState) => !state.isSearching),
+      take(1)
+    ).subscribe(searchState => {
+      this.isLoading = false;
+      this.items = [];
+
+      if (searchState.isSearchingSuccess) {
+        this.posts = searchState.searchResult.posts || [];
+        this.items = this.items.concat(this.posts);
+      } else {
+        this.clearPosts();
+      }
+
+    });
+  }
+
+  private clearPosts(): void {
+    this.posts = [];
+    this.isLoading = false;
+  }
+
+
+
+
 }

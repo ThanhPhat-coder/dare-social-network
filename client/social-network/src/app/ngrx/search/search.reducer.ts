@@ -36,14 +36,75 @@ export const SearchReducer = createReducer(
   }),
 
   on(
-    SearchActions.searchFailure,
-    (state, { searchResultPostFailure, type }) => {
+    SearchActions.searchFailure, (state, { searchResultPostFailure, type }) => {
       console.log(type);
       return {
         ...state,
         searchResultFailure: searchResultPostFailure,
         searchResultLoading: false,
-      };
-    },
-  ),
+    };
+  }),
+
+  on(SearchActions.searchByUsername, (state, { username, type }) => {
+    console.log(type);
+    return {
+      ...state,
+      searchResultLoading: true,
+      isSearching: true,
+    };
+  }),
+
+  on(SearchActions.searchByUsernameSuccess, (state, { searchResult, type }) => {
+    console.log(type);
+    return {
+      ...state,
+      searchResult: searchResult,
+      searchResultLoading: false,
+      isSearching: false,
+      isSearchingSuccess: true,
+    };
+  }),
+
+  on(
+    SearchActions.searchByUsernameFailure, (state, { error, type }) => {
+      console.log(type);
+      return {
+        ...state,
+        searchResultFailure: error,
+        searchResultLoading: false,
+    };
+  }),
+
+
+  on(SearchActions.searchUserPosts, (state, { username, type }) => {
+    console.log(type);
+    return {
+      ...state,
+      searchResultLoading: true,
+      isSearching: true,
+    };
+  }),
+
+  on(SearchActions.searchUserPostsSuccess, (state, { searchResult, type }) => {
+    console.log(type);
+    return {
+      ...state,
+      searchResult: searchResult,
+      searchResultLoading: false,
+      isSearching: false,
+      isSearchingSuccess: true,
+    };
+  }),
+
+  on(
+    SearchActions.searchUserPostsFailure, (state, { error, type }) => {
+      console.log(type);
+      return {
+        ...state,
+        searchResultFailure: error,
+        searchResultLoading: false,
+    };
+  }),
+
+
 );

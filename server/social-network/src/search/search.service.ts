@@ -183,7 +183,7 @@ export class SearchService {
     });
   }
 
-  async searchProfileByUsername(query: string) {
+  async searchByUsername(query: string) {
     const response = await this.esClient.search({
       index: 'dare_profiles',
       query: {
@@ -195,12 +195,18 @@ export class SearchService {
     });
     return response.hits.hits;
   }
-
-  async searchUser(query: string) {
-    if (query.startsWith('@')) {
-      const username = query.substring(1); // Remove '@'
-      return this.searchProfileByUsername(username);
+  //searchUserPosts
+    async searchUserPosts(query: string) {
+        const response = await this.esClient.search({
+        index: 'dare_posts',
+        query: {
+            multi_match: {
+            query: query,
+            fields: ['uid'],
+            },
+        },
+        });
+        return response.hits.hits;
     }
-    return this.searchProfiles(query);
-  }
+
 }

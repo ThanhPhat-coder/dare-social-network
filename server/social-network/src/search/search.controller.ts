@@ -10,9 +10,14 @@ export class SearchController {
     return this.searchService.searchPosts(query);
   }
 
-  @Get('person')
-  async searchProfiles(@Query('q') query: string) {
-    return this.searchService.searchUser(query); // Sử dụng phương thức mới để tìm kiếm người dùng
+  @Get('username')
+  async searchByUsername(@Query('q') query: string) {
+    return this.searchService.searchByUsername(query);
+  }
+
+  @Get('userPosts')
+  async searchUserPosts(@Query('q') query: string) {
+    return this.searchService.searchUserPosts(query);
   }
 
   @Get('any')

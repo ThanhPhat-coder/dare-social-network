@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   selector: string = '.scroll-container';
   currentPage = 1;
-  size = 20;
+  size = 200;
   itemsCount = 0;
   subscription: Subscription[] = [];
   getAllPost$ = this.store.select('post', 'posts');

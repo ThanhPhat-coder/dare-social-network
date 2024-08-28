@@ -38,7 +38,6 @@
          [infiniteScrollDistance]="2"
          [infiniteScrollThrottle]="50"
          [fromRoot]="true"
-         (scrolled)="onScrollDown($event)"
     >
       <div class="masonry-container">
           @for(post of minePosts.data; track $index){
